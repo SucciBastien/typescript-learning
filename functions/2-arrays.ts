@@ -3,7 +3,8 @@
  * 
  * Retourne -1 si le tableau est vide.
  */
-export function getFirstNumber(): void {
+export function getFirstNumber(a: number[]): number {
+    return a[0] ? a[0] : -1
 }
 
 /**
@@ -12,7 +13,8 @@ export function getFirstNumber(): void {
  * @param songs Liste de chansons
  * @returns La dernière chaîne de caractères
  */
-export function getLastSongPlayed(): void {
+export function getLastSongPlayed(a: string[]): string {
+    return a[a.length -1]
 }
 
 /**
@@ -22,7 +24,14 @@ export function getLastSongPlayed(): void {
  * 
  * Pour apprendre à vous servir de "reduce" : https://medium.com/free-code-camp/three-ways-to-find-the-longest-word-in-a-string-in-javascript-a2fb04c9757c#720b
  */
-export function findLongestWord(): void {
+export function findLongestWord(a: string[]): string {
+    return a.reduce(function(long, longer){
+        if (long.length > longer.length){
+            return long
+        }else {
+            return longer
+        }
+    })
 }
 
 /**
@@ -31,7 +40,12 @@ export function findLongestWord(): void {
  * @param length La taille du tableau à créer (number)
  * @param defaultValue La valeur par défaut (string)
  */
-export function fillArrayWithDefaultValue(): void {
+export function fillArrayWithDefaultValue(l: number, dv: string): string[] {
+    var tab = []
+    for(let i = 0; i < l; i++){
+        tab.push(dv)
+    }
+    return tab
 }
 
 /**
@@ -44,7 +58,20 @@ export function fillArrayWithDefaultValue(): void {
  * @param arrayToSort Le tableau de chaînes de caractères à trier
  * @returns Le tableau trié
  */
-export function sortBySize(): void {
+export function sortBySize(arrayToSort: string[]): string[] {
+    var sortedArray: string[] = []
+
+    sortedArray = [...arrayToSort].sort(function(a: string, b: string){
+        if(a.length <= b.length){
+            return -1
+        }
+        if(a.length > b.length){
+            return 1;
+        }
+        return 0;
+    })
+
+    return sortedArray
 }
 
 // ----------- TABLEAUX AVEC DES UNIONS -----------
@@ -55,7 +82,17 @@ export function sortBySize(): void {
  * @param array Utilisation d'un tableau avec types multiples : https://www.geeksforgeeks.org/defining-array-with-multiple-types-in-typescript/
  * @returns Le résultat de la somme de type "number"
  */
-export function sumStringsAndNumbers(): void {
+export function sumStringsAndNumbers(array: (string | number)[]): number {
+    var sum: number = 0;
+    array.forEach(a => {
+        if(typeof(a) === "number" ){
+            sum += a
+        }
+        else{
+            sum += parseInt(a)
+        }
+    });
+    return sum;
 }
 
 /**
@@ -67,8 +104,10 @@ export function sumStringsAndNumbers(): void {
  * @param array Un tableau pouvant contenir des "string" mais également des éléments "null"
  * @returns Tableau de chaînes de caractères résultat
  */
-export function stringsOnly(): void {
- }
+export function stringsOnly(array : (string | null)[]): (string | null)[] {
+    let filteredArray: (string | null)[] = array.filter((a) => a != null)
+    return filteredArray;
+}
 
 // ----------- TUPLES -----------
 
@@ -82,7 +121,8 @@ export function stringsOnly(): void {
  * @param userInfo Un tuple contenant les informations utilisateur
  * @returns Le nom utilisateur généré.
  */
-export function generateUsername(): void {
+export function generateUsername(userInfo: (string | number)[]): string {
+    return userInfo[1].toString().toLowerCase() + userInfo[0].toString().substring(0, 2).toLowerCase() + `_${userInfo[2]}`
 }
 
 /**
@@ -90,6 +130,10 @@ export function generateUsername(): void {
  * TODO : à compléter avec {North, South, East, West}
  */
 export enum Direction {
+    North,
+    South,
+    East,
+    West
 }
 
 /**
@@ -111,5 +155,19 @@ export enum Direction {
  * @param direction Enum présentant une direction (North, South, East, West)
  * @returns Les nouvelles coordonnées (tuple)
  */
-export function getNextMapCoord(): void { 
+export function getNextMapCoord(coordinates: number[], direction: Direction): number[] {
+    var newCoordinates: number[] = coordinates
+    if(direction == Direction.North){
+        newCoordinates[1] += 1
+    }
+    if(direction == Direction.South){
+        newCoordinates[1] -= 1
+    }
+    if(direction == Direction.East){
+        newCoordinates[0] += 1
+    }
+    if(direction == Direction.West){
+        newCoordinates[0] -= 1
+    }
+    return newCoordinates
 }
